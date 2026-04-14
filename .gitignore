@@ -1,0 +1,5 @@
+.env
+jenkins_home/
+*.log
+.DS_Store
+note.txt
