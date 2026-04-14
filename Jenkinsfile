@@ -6,8 +6,10 @@ pipeline {
         }
         stage('SAST: Semgrep') {
             steps {
-                // Gunakan single quotes untuk sh agar ${WORKSPACE} tidak dievaluasi oleh shell lokal
-                sh 'docker run --rm -v "${WORKSPACE}:/src" returntocorp/semgrep semgrep scan --config="p/php" --config="p/security-audit" --error'
+                script {
+                    // Kita gunakan direktori kerja saat ini
+                    sh "docker run --rm -v /var/lib/docker/volumes/jenkins_home/_data/workspace/${JOB_NAME}:/src returntocorp/semgrep semgrep scan --config=p/php --config=p/security-audit --error"
+                }
             }
         }
         stage('SCA: OSV-Scanner') {
